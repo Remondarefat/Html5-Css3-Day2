@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>GeoLocation API</h2>
+    <button onclick="getLoc()">get Location</button>
+    <button onclick="stopLoc()">Stop Location </button>
+    <section id="displayLocation"></section>
+
+    <script>
+        var locationId;
+    
+        function getLoc(){
+            if (navigator.geolocation) {
+                locationId = navigator.geolocation.watchPosition(showPosition, handleError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position){
+            let lat = position.coords.latitude;
+            let long = position.coords.longitude;
+
+        // To Display My Location in the same Page use open() methode----
+        // ------------------------------------------------------------------
+            let win = open("http://maps.google.com/maps?q=" + lat + ',+' + long ,"", "width=400,height=400");
+            win.focus();
+
+        // To Display My Location in the same page use anther way by ifram tage 
+        // -----------------------------------------------------------------------
+    //         let displayLocation = `
+    //         <iframe src="${"http://maps.google.com/maps?q=" + lat + ',+' + long}"></iframe>
+    //         `
+            // document.getElementById('displayLocation').innerHTML=displayLocation;
+            // console.log(displayLocation);
+        }
+
+        function handleError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+        }
+
+        function stopLoc(){
+            if(locationId) {
+                navigator.geolocation.clearWatch(locationId);
+            }
+        }
+        </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Web Worker</h1>
+    <button id="Btn1">First Operation</button>
+    <button id="Btn2">Sec Operation</button>
+    <button id="Btn3">Change Back Ground</button>
+
+    <script>
+        let worker = new Worker ('worker.js');
+        let secWorker = new Worker ('sec_worker.js');
+        let btn1 = document.getElementById('Btn1');
+        let btn2 = document.getElementById('Btn2');
+        let btn3 = document.getElementById('Btn3');
+
+        // -----------------------------------------
+
+        btn1.addEventListener('click' , function(){
+        worker.postMessage('');
+        })
+        worker.onmessage=function(message){
+            alert(message.data);
+        }
+        // ------------------------------------------
+
+        btn2.addEventListener('click' , function(){
+            secWorker.postMessage("")
+        })
+        secWorker.onmessage=function(msg){
+            alert(msg.data);
+        }
+
+        // -----------------------------------------
+
+        btn3.addEventListener('click' , function(){
+        if(document.body.style.background !=='green'){
+            document.body.style.background ='green';
+        }else{
+            document.body.style.background ='blue'
+        }
+        })
+
+    </script>
+</body>
+</html>
